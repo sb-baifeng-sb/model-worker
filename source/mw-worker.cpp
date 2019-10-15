@@ -35,10 +35,16 @@ bool WorkerHolder::registerWorker(Worker* worker) {
 		delete worker;
 		return false;
 	}
+	worker->facade = this->facade;
 	workstart(facade, worker);
 	this->mWorkerMap[worker->getWorkerName()] = worker;
 	worker->onAttach();
 	return true;
+}
+
+bool WorkerHolder::registerWorker(std::string const& workerName, Worker* worker) {
+	worker->mWorkerName = workerName;
+	return this->registerWorker(worker);
 }
 
 bool WorkerHolder::removeWorker(std::string const& workerName) {

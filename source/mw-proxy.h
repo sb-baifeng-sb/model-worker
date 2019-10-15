@@ -10,6 +10,7 @@ namespace mw {
 class Proxy {
 	friend class ProxyHolder;
 public:
+	Proxy() {}
 	Proxy(std::string const& name):facade(nullptr) {
 		this->mProxyName = name;
 	}
@@ -38,6 +39,7 @@ public:
 	~ProxyHolder();
 public:
 	bool registerProxy(Proxy* proxy);
+	bool registerProxy(std::string const& proxyName, Proxy* proxy);
 	bool removeProxy(std::string const& proxyName);
 	Proxy& getProxy(std::string const& proxyName);
 private:

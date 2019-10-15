@@ -9,9 +9,11 @@
 namespace mw {
 
 class Worker {
+	friend class WorkerHolder;
 public:
 	typedef std::vector<std::string> WorkList;
 public:
+	Worker() {}
 	Worker(std::string const& name) {
 		this->mWorkerName = name;
 	}
@@ -45,6 +47,7 @@ public:
 	~WorkerHolder();
 public:
 	bool registerWorker(Worker* worker);
+	bool registerWorker(std::string const& workerName, Worker* worker);
 	bool removeWorker(std::string const& workerName);
 	Worker& getWorker(std::string const& workerName);
 private:

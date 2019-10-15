@@ -25,6 +25,11 @@ bool ProxyHolder::registerProxy(Proxy* proxy) {
 	return true;
 }
 
+bool ProxyHolder::registerProxy(std::string const& proxyName, Proxy* proxy) {
+	proxy->mProxyName = proxyName;
+	return this->registerProxy(proxy);
+}
+
 bool ProxyHolder::removeProxy(std::string const& proxyName) {
 	Proxy* proxy = this->mProxyMap[proxyName];
 	if (proxy != NULL) {
