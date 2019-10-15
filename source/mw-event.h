@@ -121,6 +121,8 @@ public:
 	bool registerHandler(std::string const& eventName, HandlerImp* handler);
 	bool removeHandler(std::string const& eventName, void* target);
 	void notify(Event const& args);
+	void notify(std::string const& name, int v);
+	void notify(std::string const& name, std::string const& v);
 private:
 	HandlerMap mHandlerMap;
 };

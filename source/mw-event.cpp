@@ -38,4 +38,12 @@ void HandlerHolder::notify(Event const& args) {
 	}
 }
 
+void HandlerHolder::notify(std::string const& name, int v) {
+    this->notify(IntEvent(name, v));
+}
+
+void HandlerHolder::notify(std::string const& name, std::string const& v) {
+    this->notify(StringEvent(name, v));
+}
+
 } // lite2d
