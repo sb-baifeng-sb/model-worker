@@ -3,22 +3,6 @@
 
 namespace mw {
 
-static void workstart(Facade* facade, Worker* worker) {
-	auto& holder = facade->hh();
-	Worker::WorkList list = worker->worklist();
-	for (int i = 0; i < (int)list.size(); ++i) {
-		holder.registerHandler(list[i], new Handler<Worker>(worker, &Worker::handle));
-	}
-}
-
-static void workstop(Facade* facade, Worker* worker) {
-	auto& holder = facade->hh();
-	Worker::WorkList list = worker->worklist();
-	for (int i = 0; i < (int)list.size(); ++i) {
-		holder.removeHandler(list[i], worker);
-	}
-}
-
 WorkerHolder::WorkerHolder(Facade* facade) {
 	this->facade = facade;
 }
@@ -36,7 +20,13 @@ bool WorkerHolder::registerWorker(Worker* worker) {
 		return false;
 	}
 	worker->facade = this->facade;
-	workstart(facade, worker);
+	{
+		auto& holder = this->facade->hh();
+		Worker::WorkList list = worker->worklist();
+		for (int i = 0; i < (int)list.size(); ++i) {
+			holder.registerHandler(list[i], new Handler<Worker>(worker, &Worker::handle));
+		}
+	}
 	this->mWorkerMap.insert(std::make_pair(worker->getName(), worker));
 	worker->onAttach();
 	return true;
@@ -52,7 +42,13 @@ bool WorkerHolder::removeWorker(std::string const& workerName) {
 	if (worker != NULL) {
 		worker->onDetach();
 		this->mWorkerMap.erase(workerName);
-		workstop(facade, worker);
+		{
+			auto& holder = facade->hh();
+			Worker::WorkList list = worker->worklist();
+			for (int i = 0; i < (int)list.size(); ++i) {
+				holder.removeHandler(list[i], worker);
+			}
+		}
 		delete worker;
 		return true;
 	}

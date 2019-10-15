@@ -17,13 +17,12 @@ public:
 	Worker(std::string const& name) {
 		this->mWorkerName = name;
 	}
-	virtual ~Worker() {
-	}
+	virtual ~Worker() {}
 public:
 	std::string const& getName() const {
 		return this->mWorkerName;
 	}
-public:
+protected:
 	virtual WorkList worklist() const {
 		WorkList list;
 		return list;
@@ -31,7 +30,6 @@ public:
 	virtual void handle(Event const& args) {
 	    printf("default worker.\n");
 	}
-protected:
 	virtual void onAttach(){}
 	virtual void onDetach(){}
 private:

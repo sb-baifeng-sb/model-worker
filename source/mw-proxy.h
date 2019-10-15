@@ -14,8 +14,7 @@ public:
 	Proxy(std::string const& name) {
 		this->mProxyName = name;
 	}
-	virtual ~Proxy() {
-	}
+	virtual ~Proxy() {}
 public:
 	std::string const& getName() const {
 		return this->mProxyName;
