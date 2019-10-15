@@ -1,11 +1,12 @@
 
 #include "mw-event.h"
+#include "mw-facade.h"
 
 namespace mw {
 
 HandlerHolder::~HandlerHolder() {
     for (HandlerMap::iterator iter = this->mHandlerMap.begin(); iter != this->mHandlerMap.end(); ++iter) {
-        HandlerList& list = iter->second;
+        auto& list = iter->second;
         for (HandlerList::iterator i = list.begin(); i != list.end(); ++i) {
             delete *i;
         }
@@ -14,13 +15,13 @@ HandlerHolder::~HandlerHolder() {
 }
 
 bool HandlerHolder::registerHandler(std::string const& eventName, HandlerImp* handler) {
-	HandlerList& list = this->mHandlerMap[eventName];
+	auto& list = this->mHandlerMap[eventName];
 	list.push_back(handler);
 	return true;
 }
 
 bool HandlerHolder::removeHandler(std::string const& eventName, void* target) {
-	HandlerList& list = this->mHandlerMap[eventName];
+	auto& list = this->mHandlerMap[eventName];
 	for (HandlerList::iterator i = list.begin(); i != list.end(); ++i) {
 		if ((*i)->match(target)) {
             delete *i;
@@ -32,10 +33,14 @@ bool HandlerHolder::removeHandler(std::string const& eventName, void* target) {
 }
 
 void HandlerHolder::notify(Event const& args) {
-	HandlerList temp = this->mHandlerMap[args.msgType()];
-	for (HandlerList::iterator i = temp.begin(); i != temp.end(); ++i) {
+	auto& list = this->mHandlerMap[args.msgName()];
+	for (HandlerList::iterator i = list.begin(); i != list.end(); ++i) {
 		(*i)->handler(args);
 	}
+}
+
+void HandlerHolder::notify(std::string const& name) {
+    this->notify(Event(name));
 }
 
 void HandlerHolder::notify(std::string const& name, int v) {
@@ -44,6 +49,22 @@ void HandlerHolder::notify(std::string const& name, int v) {
 
 void HandlerHolder::notify(std::string const& name, std::string const& v) {
     this->notify(StringEvent(name, v));
+}
+
+void Notifer::notify(Event const& args) {
+    this->facade->notify(args);
+}
+
+void Notifer::notify(std::string const& name) {
+    this->facade->notify(name);
+}
+
+void Notifer::notify(std::string const& name, int v) {
+    this->facade->notify(name, v);
+}
+
+void Notifer::notify(std::string const& name, std::string const& v) {
+    this->facade->notify(name, v);
 }
 
 } // lite2d

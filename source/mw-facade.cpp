@@ -18,4 +18,20 @@ Facade::~Facade() {
     delete this->mHandlerHolder;
 }
 
+void Facade::notify(Event const& args) {
+    this->hh().notify(args);
+}
+
+void Facade::notify(std::string const& name) {
+    this->hh().notify(name);
+}
+
+void Facade::notify(std::string const& name, int v) {
+    this->hh().notify(name, v);
+}
+
+void Facade::notify(std::string const& name, std::string const& v) {
+    this->hh().notify(name, v);
+}
+
 }

@@ -8,7 +8,7 @@
 
 namespace mw {
 
-class Worker {
+class Worker : public Notifer {
 	friend class WorkerHolder;
 public:
 	typedef std::vector<std::string> WorkList;
@@ -20,22 +20,21 @@ public:
 	virtual ~Worker() {
 	}
 public:
-	std::string const& getWorkerName() const {
+	std::string const& getName() const {
 		return this->mWorkerName;
 	}
-	void notify(Event const& args) {
-		this->facade->hh().notify(args);
-	}
 public:
-	virtual void onAttach(){}
-	virtual void onDetach(){}
-	virtual void handle(Event const& args){}
-	virtual WorkList worklist() {
+	virtual WorkList worklist() const {
 		WorkList list;
 		return list;
 	}
+	virtual void handle(Event const& args) {
+	    printf("default worker.\n");
+	}
+protected:
+	virtual void onAttach(){}
+	virtual void onDetach(){}
 private:
-	Facade* facade;
 	std::string mWorkerName;
 };
 
@@ -50,6 +49,10 @@ public:
 	bool registerWorker(std::string const& workerName, Worker* worker);
 	bool removeWorker(std::string const& workerName);
 	Worker& getWorker(std::string const& workerName);
+    template <typename T>
+    T& get(std::string const& workerName) {
+        return *dynamic_cast<T*>(&getWorker(workerName));
+    }
 private:
 	Facade* facade;
 	WorkerMap mWorkerMap;

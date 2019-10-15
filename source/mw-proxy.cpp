@@ -15,12 +15,12 @@ ProxyHolder::~ProxyHolder() {
 }
 
 bool ProxyHolder::registerProxy(Proxy* proxy) {
-	if (this->mProxyMap[proxy->getProxyName()]!=NULL) {
+	if (this->mProxyMap.find(proxy->getName()) != this->mProxyMap.end()) {
 		delete proxy;
 		return false;
 	}
 	proxy->facade = this->facade;
-	this->mProxyMap[proxy->getProxyName()] = proxy;
+	this->mProxyMap.insert(std::make_pair(proxy->getName(), proxy));
 	proxy->onAttach();
 	return true;
 }

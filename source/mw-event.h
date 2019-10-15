@@ -13,16 +13,16 @@ namespace mw {
 
 class Event {
 public:
-    Event(std::string const& msgtype) {
-        this->mMsgType = msgtype;
+    Event(std::string const& msgName) {
+        this->mName = msgName;
     }
 	virtual ~Event(){}
 public:
-	std::string const& msgType() const {
-		return this->mMsgType;
+	std::string const& msgName() const {
+		return this->mName;
 	}
 private:
-	std::string mMsgType;
+	std::string mName;
 };
 
 class HandlerImp {
@@ -37,7 +37,7 @@ public:
 
 class StringEvent : public Event {
 public:
-	StringEvent(std::string const& msgtype, std::string const& value):Event(msgtype) {
+	StringEvent(std::string const& msgName, std::string const& value):Event(msgName) {
 		this->mMsgValue = value;
 	}
 public:
@@ -50,7 +50,7 @@ private:
 
 class IntEvent : public Event {
 public:
-	IntEvent(std::string const& msgtype, int value):Event(msgtype) {
+	IntEvent(std::string const& msgName, int value):Event(msgName) {
 		this->mMsgValue = value;
 	}
 public:
@@ -65,7 +65,7 @@ class KVEvent : public Event {
 public:
 	typedef std::map<std::string, std::string> ValueMap;
 public:
-	KVEvent(std::string const& msgtype, ValueMap const& vm):Event(msgtype) {
+	KVEvent(std::string const& msgName, ValueMap const& vm):Event(msgName) {
 		this->mValue = vm;
 	}
 public:
@@ -120,11 +120,26 @@ public:
 public:
 	bool registerHandler(std::string const& eventName, HandlerImp* handler);
 	bool removeHandler(std::string const& eventName, void* target);
+public:
 	void notify(Event const& args);
+	void notify(std::string const& name);
 	void notify(std::string const& name, int v);
 	void notify(std::string const& name, std::string const& v);
 private:
 	HandlerMap mHandlerMap;
+};
+
+class Facade;
+class Notifer {
+public:
+	virtual ~Notifer(){}
+public:
+	void notify(Event const& args);
+	void notify(std::string const& name);
+	void notify(std::string const& name, int v);
+	void notify(std::string const& name, std::string const& v);
+protected:
+	Facade* facade;
 };
 
 } // lite2d

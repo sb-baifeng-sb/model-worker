@@ -4,7 +4,7 @@
 namespace mw {
 
 static void workstart(Facade* facade, Worker* worker) {
-	auto holder = facade->hh();
+	auto& holder = facade->hh();
 	Worker::WorkList list = worker->worklist();
 	for (int i = 0; i < (int)list.size(); ++i) {
 		holder.registerHandler(list[i], new Handler<Worker>(worker, &Worker::handle));
@@ -12,7 +12,7 @@ static void workstart(Facade* facade, Worker* worker) {
 }
 
 static void workstop(Facade* facade, Worker* worker) {
-	auto holder = facade->hh();
+	auto& holder = facade->hh();
 	Worker::WorkList list = worker->worklist();
 	for (int i = 0; i < (int)list.size(); ++i) {
 		holder.removeHandler(list[i], worker);
@@ -31,13 +31,13 @@ WorkerHolder::~WorkerHolder() {
 }
 
 bool WorkerHolder::registerWorker(Worker* worker) {
-	if (this->mWorkerMap[worker->getWorkerName()]!=NULL) {
+	if (this->mWorkerMap.find(worker->getName()) != this->mWorkerMap.end()) {
 		delete worker;
 		return false;
 	}
 	worker->facade = this->facade;
 	workstart(facade, worker);
-	this->mWorkerMap[worker->getWorkerName()] = worker;
+	this->mWorkerMap.insert(std::make_pair(worker->getName(), worker));
 	worker->onAttach();
 	return true;
 }

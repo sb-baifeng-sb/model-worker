@@ -7,27 +7,23 @@
 
 namespace mw {
 
-class Proxy {
+class Proxy : public Notifer {
 	friend class ProxyHolder;
 public:
 	Proxy() {}
-	Proxy(std::string const& name):facade(nullptr) {
+	Proxy(std::string const& name) {
 		this->mProxyName = name;
 	}
 	virtual ~Proxy() {
 	}
 public:
-	std::string const& getProxyName() const {
+	std::string const& getName() const {
 		return this->mProxyName;
 	}
-	void notify(Event const& args) {
-		this->facade->hh().notify(args);
-	}
-public:
+protected:
 	virtual void onAttach(){}
 	virtual void onDetach(){}
 private:
-	Facade* facade;
 	std::string mProxyName;
 };
 
@@ -42,6 +38,10 @@ public:
 	bool registerProxy(std::string const& proxyName, Proxy* proxy);
 	bool removeProxy(std::string const& proxyName);
 	Proxy& getProxy(std::string const& proxyName);
+	template <typename T>
+	T& get(std::string const& proxyName) {
+		return *dynamic_cast<T*>(&getProxy(proxyName));
+	}
 private:
 	Facade* facade;
 	ProxyMap mProxyMap;

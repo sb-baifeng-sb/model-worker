@@ -2,11 +2,14 @@
 #ifndef __MW_FACADE_H__
 #define __MW_FACADE_H__
 
+#include <string>
+
 namespace mw {
 
 class ProxyHolder;
 class WorkerHolder;
 class HandlerHolder;
+class Event;
 
 class Facade {
 public:
@@ -22,6 +25,11 @@ public:
     HandlerHolder& hh() {
         return *this->mHandlerHolder;
     }
+public:
+    void notify(Event const& args);
+    void notify(std::string const& name);
+    void notify(std::string const& name, int v);
+    void notify(std::string const& name, std::string const& v);
 public:
     ProxyHolder* mProxyHolder;
     WorkerHolder* mWorkerHolder;
