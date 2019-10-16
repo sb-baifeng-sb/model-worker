@@ -60,11 +60,11 @@ int main() {
     a.notify("event1");
     a.notify("event2");
 
-    auto m1 = a.ph().get<model1>("model1");
+    auto& m1 = a.ph().get<model1>("model1");
     m1.doSome();
     m1.notify("event3");
 
-    auto m2 = a.ph().get<model2>("model2");
+    auto& m2 = a.ph().get<model2>("model2");
     m2.doSome();
     m2.notify("event4");
 
