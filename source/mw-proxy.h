@@ -33,9 +33,9 @@ public:
 	ProxyHolder(Facade* facade);
 	~ProxyHolder();
 public:
-	bool registerProxy(Proxy* proxy);
-	bool registerProxy(std::string const& proxyName, Proxy* proxy);
-	bool removeProxy(std::string const& proxyName);
+	bool add(Proxy* proxy);
+	bool add(std::string const& proxyName, Proxy* proxy);
+	bool remove(std::string const& proxyName);
 	Proxy& getProxy(std::string const& proxyName);
 	template <typename T>
 	T& get(std::string const& proxyName) {

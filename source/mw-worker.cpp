@@ -14,7 +14,7 @@ WorkerHolder::~WorkerHolder() {
 	this->mWorkerMap.clear();
 }
 
-bool WorkerHolder::registerWorker(Worker* worker) {
+bool WorkerHolder::add(Worker* worker) {
 	if (this->mWorkerMap.find(worker->getName()) != this->mWorkerMap.end()) {
 		delete worker;
 		return false;
@@ -32,12 +32,12 @@ bool WorkerHolder::registerWorker(Worker* worker) {
 	return true;
 }
 
-bool WorkerHolder::registerWorker(std::string const& workerName, Worker* worker) {
+bool WorkerHolder::add(std::string const& workerName, Worker* worker) {
 	worker->mWorkerName = workerName;
-	return this->registerWorker(worker);
+	return this->add(worker);
 }
 
-bool WorkerHolder::removeWorker(std::string const& workerName) {
+bool WorkerHolder::remove(std::string const& workerName) {
 	Worker* worker = this->mWorkerMap[workerName];
 	if (worker != NULL) {
 		worker->onDetach();

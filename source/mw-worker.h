@@ -43,9 +43,9 @@ public:
 	WorkerHolder(Facade* facade);
 	~WorkerHolder();
 public:
-	bool registerWorker(Worker* worker);
-	bool registerWorker(std::string const& workerName, Worker* worker);
-	bool removeWorker(std::string const& workerName);
+	bool add(Worker* worker);
+	bool add(std::string const& workerName, Worker* worker);
+	bool remove(std::string const& workerName);
 	Worker& getWorker(std::string const& workerName);
     template <typename T>
     T& get(std::string const& workerName) {

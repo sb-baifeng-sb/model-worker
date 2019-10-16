@@ -51,11 +51,11 @@ class worker2 : public Worker {
 int main() {
     Facade a;
 
-    a.ph().registerProxy("model1", new model1);
-    a.ph().registerProxy("model2", new model2);
+    a.ph().add("model1", new model1);
+    a.ph().add("model2", new model2);
 
-    a.wh().registerWorker("worker1", new worker1);
-    a.wh().registerWorker("worker2", new worker2);
+    a.wh().add("worker1", new worker1);
+    a.wh().add("worker2", new worker2);
 
     a.notify("event1");
     a.notify("event2");

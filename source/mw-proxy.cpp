@@ -14,7 +14,7 @@ ProxyHolder::~ProxyHolder() {
 	this->mProxyMap.clear();
 }
 
-bool ProxyHolder::registerProxy(Proxy* proxy) {
+bool ProxyHolder::add(Proxy* proxy) {
 	if (this->mProxyMap.find(proxy->getName()) != this->mProxyMap.end()) {
 		delete proxy;
 		return false;
@@ -25,12 +25,12 @@ bool ProxyHolder::registerProxy(Proxy* proxy) {
 	return true;
 }
 
-bool ProxyHolder::registerProxy(std::string const& proxyName, Proxy* proxy) {
+bool ProxyHolder::add(std::string const& proxyName, Proxy* proxy) {
 	proxy->mProxyName = proxyName;
-	return this->registerProxy(proxy);
+	return this->add(proxy);
 }
 
-bool ProxyHolder::removeProxy(std::string const& proxyName) {
+bool ProxyHolder::remove(std::string const& proxyName) {
 	Proxy* proxy = this->mProxyMap[proxyName];
 	if (proxy != NULL) {
 		proxy->onDetach();
