@@ -7,25 +7,7 @@
 
 namespace mw {
 
-class Proxy : public Notifer {
-	friend class ProxyHolder;
-public:
-	Proxy() {}
-	Proxy(std::string const& name) {
-		this->mProxyName = name;
-	}
-	virtual ~Proxy() {}
-public:
-	std::string const& getName() const {
-		return this->mProxyName;
-	}
-protected:
-	virtual void onAttach(){}
-	virtual void onDetach(){}
-private:
-	std::string mProxyName;
-};
-
+class Proxy;
 class ProxyHolder {
 public:
 	typedef std::map<std::string, Proxy*> ProxyMap;
@@ -44,6 +26,29 @@ public:
 private:
 	Facade* facade;
 	ProxyMap mProxyMap;
+};
+
+class Proxy : public Notifer {
+	friend class ProxyHolder;
+public:
+	Proxy() {}
+	Proxy(std::string const& name) {
+		this->mProxyName = name;
+	}
+	virtual ~Proxy() {}
+public:
+	std::string const& getName() const {
+		return this->mProxyName;
+	}
+	template <typename T>
+	T& get(std::string const& proxyName) {
+		return facade->ph().get<T>(proxyName);
+	}
+protected:
+	virtual void onAttach(){}
+	virtual void onDetach(){}
+private:
+	std::string mProxyName;
 };
 
 } // lite2d

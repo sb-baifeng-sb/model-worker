@@ -4,6 +4,7 @@
 
 #include "mw-event.h"
 #include "mw-facade.h"
+#include "mw-proxy.h"
 #include "vector"
 
 namespace mw {
@@ -21,6 +22,10 @@ public:
 public:
 	std::string const& getName() const {
 		return this->mWorkerName;
+	}
+	template <typename T>
+	T& get(std::string const& proxyName) {
+		return facade->ph().get<T>(proxyName);
 	}
 protected:
 	virtual WorkList worklist() const {
