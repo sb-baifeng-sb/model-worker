@@ -30,7 +30,7 @@ class HandlerImp {
 public:
 	virtual ~HandlerImp(){}
 public:
-	virtual void handler(Event const& args){}
+	virtual void handler(Event const& e){}
     virtual bool match(void* target) const {
         return false;
     }
@@ -104,8 +104,8 @@ public:
 		return this->target==target;
 	}
 public:
-	virtual void handler(Event const& args) {
-		(this->target->*this->callfunc)(args);
+	virtual void handler(Event const& e) {
+		(this->target->*this->callfunc)(e);
 	}
 private:
 	T* target;
@@ -116,18 +116,22 @@ class HandlerHolder {
 public:
 	typedef std::list<HandlerImp*> HandlerList;
 	typedef std::map<std::string, HandlerList> HandlerMap;
+	typedef std::function<void(Event const& e)> Listener;
 public:
 	~HandlerHolder();
 public:
 	bool registerHandler(std::string const& eventName, HandlerImp* handler);
 	bool removeHandler(std::string const& eventName, void* target);
 public:
-	void notify(Event const& args);
+	void setListener(Listener const& l);
+public:
+	void notify(Event const& e);
 	void notify(std::string const& name);
 	void notify(std::string const& name, int v);
 	void notify(std::string const& name, std::string const& v);
 private:
 	HandlerMap mHandlerMap;
+	Listener mListener;
 };
 
 class Facade;
@@ -135,7 +139,7 @@ class Notifer {
 public:
 	virtual ~Notifer(){}
 public:
-	void notify(Event const& args);
+	void notify(Event const& e);
 	void notify(std::string const& name);
 	void notify(std::string const& name, int v);
 	void notify(std::string const& name, std::string const& v);

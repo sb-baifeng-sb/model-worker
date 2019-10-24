@@ -9,6 +9,7 @@ namespace mw {
 class ProxyHolder;
 class WorkerHolder;
 class HandlerHolder;
+class ProcHolder;
 class Event;
 
 class Facade {
@@ -25,6 +26,9 @@ public:
     HandlerHolder& hh() {
         return *this->mHandlerHolder;
     }
+    ProcHolder& proc() {
+        return *this->mProcHolder;
+    }
 public:
     void notify(Event const& args);
     void notify(std::string const& name);
@@ -34,7 +38,10 @@ public:
     ProxyHolder* mProxyHolder;
     WorkerHolder* mWorkerHolder;
     HandlerHolder* mHandlerHolder;
+    ProcHolder* mProcHolder;
 };
+
+typedef Facade App;
 
 }
 

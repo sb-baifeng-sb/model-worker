@@ -57,6 +57,10 @@ int main() {
     a.wh().add("worker1", new worker1);
     a.wh().add("worker2", new worker2);
 
+    a.proc().add("event4", [&](App& app, Event const& e) {
+        printf("proc - event4.\n");
+    });
+
     a.notify("event1");
     a.notify("event2");
 

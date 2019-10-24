@@ -32,11 +32,18 @@ bool HandlerHolder::removeHandler(std::string const& eventName, void* target) {
 	return false;
 }
 
-void HandlerHolder::notify(Event const& args) {
-	auto& list = this->mHandlerMap[args.msgName()];
+void HandlerHolder::setListener(Listener const& l) {
+    this->mListener = l;
+}
+
+void HandlerHolder::notify(Event const& e) {
+	auto& list = this->mHandlerMap[e.msgName()];
 	for (HandlerList::iterator i = list.begin(); i != list.end(); ++i) {
-		(*i)->handler(args);
+		(*i)->handler(e);
 	}
+    if (this->mListener != nullptr) {
+        this->mListener(e);
+    }
 }
 
 void HandlerHolder::notify(std::string const& name) {
@@ -51,8 +58,8 @@ void HandlerHolder::notify(std::string const& name, std::string const& v) {
     this->notify(StringEvent(name, v));
 }
 
-void Notifer::notify(Event const& args) {
-    this->facade->notify(args);
+void Notifer::notify(Event const& e) {
+    this->facade->notify(e);
 }
 
 void Notifer::notify(std::string const& name) {

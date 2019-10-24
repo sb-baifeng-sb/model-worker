@@ -4,6 +4,7 @@
 
 #include "mw-proxy.h"
 #include "mw-worker.h"
+#include "mw-proc.h"
 #include "mw-event.h"
 #include "mw-facade.h"
 
