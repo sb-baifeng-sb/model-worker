@@ -23,10 +23,6 @@ public:
 	std::string const& getName() const {
 		return this->mWorkerName;
 	}
-	template <typename T>
-	T& get(std::string const& proxyName) {
-		return facade->ph().get<T>(proxyName);
-	}
 protected:
 	virtual WorkList worklist() const {
 		WorkList list;
@@ -37,6 +33,11 @@ protected:
 	}
 	virtual void onAttach(){}
 	virtual void onDetach(){}
+protected:
+	template <typename T>
+	T& get(std::string const& proxyName) {
+		return facade->ph().get<T>(proxyName);
+	}
 private:
 	std::string mWorkerName;
 };

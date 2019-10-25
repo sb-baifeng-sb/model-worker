@@ -40,13 +40,14 @@ public:
 	std::string const& getName() const {
 		return this->mProxyName;
 	}
+protected:
+	virtual void onAttach(){}
+	virtual void onDetach(){}
+protected:
 	template <typename T>
 	T& get(std::string const& proxyName) {
 		return facade->ph().get<T>(proxyName);
 	}
-protected:
-	virtual void onAttach(){}
-	virtual void onDetach(){}
 private:
 	std::string mProxyName;
 };
