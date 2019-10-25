@@ -30,7 +30,7 @@ public:
         return *this->mProcHolder;
     }
 public:
-    void notify(Event const& args);
+    void notify(Event const& e);
     void notify(std::string const& name);
     void notify(std::string const& name, int v);
     void notify(std::string const& name, std::string const& v);

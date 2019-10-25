@@ -22,8 +22,8 @@ Facade::~Facade() {
     delete this->mProxyHolder;
 }
 
-void Facade::notify(Event const& args) {
-    this->hh().notify(args);
+void Facade::notify(Event const& e) {
+    this->hh().notify(e);
 }
 
 void Facade::notify(std::string const& name) {

@@ -28,7 +28,7 @@ protected:
 		WorkList list;
 		return list;
 	}
-	virtual void handle(Event const& args) {
+	virtual void handle(Event const& e) {
 	    printf("default worker.\n");
 	}
 	virtual void onAttach(){}
