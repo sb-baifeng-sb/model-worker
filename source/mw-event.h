@@ -62,6 +62,19 @@ private:
 	int mMsgValue;
 };
 
+class FloatEvent : public Event {
+public:
+	FloatEvent(std::string const& msgName, float value):Event(msgName) {
+		this->mMsgValue = value;
+	}
+public:
+	float msgValue() const {
+		return this->mMsgValue;
+	}
+private:
+	float mMsgValue;
+};
+
 class KVEvent : public Event {
 public:
 	typedef std::map<std::string, std::string> ValueMap;
