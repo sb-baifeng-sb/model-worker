@@ -24,10 +24,10 @@ private:
         list.push_back("event3");
         return list;
     }
-    void handle(Event const& args) override {
-        if (args.msgName() == "event1") {
+    void handle(Event const& e) override {
+        if (e.Name() == "event1") {
             printf("worker1 - event1.\n");
-        } else if (args.msgName() == "event3") {
+        } else if (e.Name() == "event3") {
             printf("worker1 - event3.\n");
         }
     }
@@ -39,10 +39,10 @@ class worker2 : public Worker {
         list.push_back("event4");
         return list;
     }
-    void handle(Event const& args) override {
-        if (args.msgName() == "event2") {
+    void handle(Event const& e) override {
+        if (e.Name() == "event2") {
             printf("worker2 - event2.\n");
-        } else if (args.msgName() == "event4") {
+        } else if (e.Name() == "event4") {
             printf("worker2 - event4.\n");
         }
     }

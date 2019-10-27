@@ -14,14 +14,21 @@ namespace mw {
 
 class Event {
 public:
+	enum {
+		TYPE = 0xA000,
+	};
+public:
     Event(std::string const& msgName) {
         this->mName = msgName;
     }
 	virtual ~Event(){}
 public:
-	std::string const& msgName() const {
+	std::string const& Name() const {
 		return this->mName;
 	}
+	virtual int Type() const {
+		return Event::TYPE;
+	};
 private:
 	std::string mName;
 };
@@ -38,12 +45,19 @@ public:
 
 class StringEvent : public Event {
 public:
+	enum {
+		TYPE = 0xA001,
+	};
+public:
 	StringEvent(std::string const& msgName, std::string const& value):Event(msgName) {
 		this->mMsgValue = value;
 	}
 public:
-	std::string const& msgValue() const {
+	std::string const& Value() const {
 		return this->mMsgValue;
+	}
+	int Type() const override {
+		return StringEvent::TYPE;
 	}
 private:
 	std::string mMsgValue;
@@ -51,11 +65,18 @@ private:
 
 class IntEvent : public Event {
 public:
+	enum {
+		TYPE = 0xA002,
+	};
+public:
 	IntEvent(std::string const& msgName, int value):Event(msgName) {
 		this->mMsgValue = value;
 	}
+	int Type() const override {
+		return StringEvent::TYPE;
+	}
 public:
-	int msgValue() const {
+	int Value() const {
 		return this->mMsgValue;
 	}
 private:
@@ -64,18 +85,29 @@ private:
 
 class FloatEvent : public Event {
 public:
+	enum {
+		TYPE = 0xA003,
+	};
+public:
 	FloatEvent(std::string const& msgName, float value):Event(msgName) {
 		this->mMsgValue = value;
 	}
 public:
-	float msgValue() const {
+	float Value() const {
 		return this->mMsgValue;
+	}
+	int Type() const override {
+		return StringEvent::TYPE;
 	}
 private:
 	float mMsgValue;
 };
 
 class KVEvent : public Event {
+public:
+	enum {
+		TYPE = 0xA004,
+	};
 public:
 	typedef std::map<std::string, std::string> ValueMap;
 public:
@@ -87,8 +119,11 @@ public:
 	std::string& operator[](std::string const& key) {
 		return this->mValue[key];
 	}
-	ValueMap& msgValue() {
+	ValueMap& Value() {
 		return this->mValue;
+	}
+	int Type() const override {
+		return StringEvent::TYPE;
 	}
 private:
 	ValueMap mValue;

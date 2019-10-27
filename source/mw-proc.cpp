@@ -18,7 +18,7 @@ bool ProcHolder::remove(std::string const& eventName) {
 }
 
 void ProcHolder::handle(Event const& e) {
-    auto iter = this->mProcMap.find(e.msgName());
+    auto iter = this->mProcMap.find(e.Name());
     if (iter == this->mProcMap.end()) {
         return;
     }

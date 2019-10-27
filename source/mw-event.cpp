@@ -37,7 +37,7 @@ void HandlerHolder::setListener(Listener const& l) {
 }
 
 void HandlerHolder::notify(Event const& e) {
-	auto& list = this->mHandlerMap[e.msgName()];
+	auto& list = this->mHandlerMap[e.Name()];
 	for (HandlerList::iterator i = list.begin(); i != list.end(); ++i) {
 		(*i)->handler(e);
 	}
