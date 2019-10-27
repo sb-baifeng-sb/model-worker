@@ -82,7 +82,11 @@ public:
 	KVEvent(std::string const& msgName, ValueMap const& vm):Event(msgName) {
 		this->mValue = vm;
 	}
+	KVEvent(std::string const& msgName):Event(msgName) {}
 public:
+	std::string& operator[](std::string const& key) {
+		return this->mValue[key];
+	}
 	ValueMap& msgValue() {
 		return this->mValue;
 	}
