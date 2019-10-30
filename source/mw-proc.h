@@ -11,7 +11,15 @@ namespace mw {
 class ProcHolder {
     friend class Facade;
 public:
-    typedef std::function<void(Facade& facade, Event const& e)> Proc;
+    class ProcEvent {
+    public:
+        Facade& facade;
+        Event const& event;
+    public:
+        ProcEvent(Facade& facade, Event const& e):facade(facade), event(e) {}
+    };
+public:
+    typedef std::function<void(ProcEvent const& e)> Proc;
     typedef std::map<std::string, Proc> ProcMap;
 public:
     bool add(std::string const& eventName, Proc const& p);
@@ -24,6 +32,8 @@ private:
     Facade* facade;
     ProcMap mProcMap;
 };
+
+typedef ProcHolder::ProcEvent ProcEvent;
 
 }
 

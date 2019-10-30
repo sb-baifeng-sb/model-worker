@@ -22,7 +22,7 @@ void ProcHolder::handle(Event const& e) {
     if (iter == this->mProcMap.end()) {
         return;
     }
-    iter->second(*this->facade, e);
+    iter->second(ProcEvent(*this->facade, e));
 }
 
 }
