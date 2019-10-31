@@ -14,13 +14,13 @@ HandlerHolder::~HandlerHolder() {
 	this->mHandlerMap.clear();
 }
 
-bool HandlerHolder::registerHandler(std::string const& eventName, HandlerImp* handler) {
+bool HandlerHolder::add(std::string const& eventName, HandlerImp* handler) {
 	auto& list = this->mHandlerMap[eventName];
 	list.push_back(handler);
 	return true;
 }
 
-bool HandlerHolder::removeHandler(std::string const& eventName, void* target) {
+bool HandlerHolder::remove(std::string const& eventName, void* target) {
 	auto& list = this->mHandlerMap[eventName];
 	for (HandlerList::iterator i = list.begin(); i != list.end(); ++i) {
 		if ((*i)->match(target)) {

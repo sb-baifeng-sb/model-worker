@@ -36,7 +36,7 @@ protected:
 protected:
 	template <typename T>
 	T& get(std::string const& proxyName) {
-		return facade->ph().get<T>(proxyName);
+		return facade->proxy().get<T>(proxyName);
 	}
 private:
 	std::string mWorkerName;

@@ -23,19 +23,19 @@ Facade::~Facade() {
 }
 
 void Facade::notify(Event const& e) {
-    this->hh().notify(e);
+    this->event().notify(e);
 }
 
 void Facade::notify(std::string const& name) {
-    this->hh().notify(name);
+    this->event().notify(name);
 }
 
 void Facade::notify(std::string const& name, int v) {
-    this->hh().notify(name, v);
+    this->event().notify(name, v);
 }
 
 void Facade::notify(std::string const& name, std::string const& v) {
-    this->hh().notify(name, v);
+    this->event().notify(name, v);
 }
 
 }

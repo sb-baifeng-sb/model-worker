@@ -172,8 +172,8 @@ public:
 public:
 	~HandlerHolder();
 public:
-	bool registerHandler(std::string const& eventName, HandlerImp* handler);
-	bool removeHandler(std::string const& eventName, void* target);
+	bool add(std::string const& eventName, HandlerImp* handler);
+	bool remove(std::string const& eventName, void* target);
 public:
 	void setListener(Listener const& l);
 public:

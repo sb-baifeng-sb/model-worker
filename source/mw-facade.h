@@ -17,13 +17,13 @@ public:
     Facade();
     virtual ~Facade();
 public:
-    ProxyHolder& ph() {
+    ProxyHolder& proxy() {
         return *this->mProxyHolder;
     }
-    WorkerHolder& wh() {
+    WorkerHolder& worker() {
         return *this->mWorkerHolder;
     }
-    HandlerHolder& hh() {
+    HandlerHolder& event() {
         return *this->mHandlerHolder;
     }
     ProcHolder& proc() {

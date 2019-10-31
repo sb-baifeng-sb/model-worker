@@ -51,11 +51,11 @@ class worker2 : public Worker {
 int main() {
     Facade a;
 
-    a.ph().add("model1", new model1);
-    a.ph().add("model2", new model2);
+    a.proxy().add("model1", new model1);
+    a.proxy().add("model2", new model2);
 
-    a.wh().add("worker1", new worker1);
-    a.wh().add("worker2", new worker2);
+    a.worker().add("worker1", new worker1);
+    a.worker().add("worker2", new worker2);
 
     a.proc().add("event4", [&](ProcEvent const& e) {
         printf("proc - %s.\n", e.event.Name().c_str());
@@ -64,11 +64,11 @@ int main() {
     a.notify("event1");
     a.notify("event2");
 
-    auto& m1 = a.ph().get<model1>("model1");
+    auto& m1 = a.proxy().get<model1>("model1");
     m1.doSome();
     m1.notify("event3");
 
-    auto& m2 = a.ph().get<model2>("model2");
+    auto& m2 = a.proxy().get<model2>("model2");
     m2.doSome();
     m2.notify("event4");
 
