@@ -73,7 +73,7 @@ public:
 		this->mMsgValue = value;
 	}
 	int Type() const override {
-		return StringEvent::TYPE;
+		return IntEvent::TYPE;
 	}
 public:
 	int Value() const {
@@ -97,7 +97,7 @@ public:
 		return this->mMsgValue;
 	}
 	int Type() const override {
-		return StringEvent::TYPE;
+		return FloatEvent::TYPE;
 	}
 private:
 	float mMsgValue;
@@ -123,10 +123,39 @@ public:
 		return this->mValue;
 	}
 	int Type() const override {
-		return StringEvent::TYPE;
+		return KVEvent::TYPE;
 	}
 private:
 	ValueMap mValue;
+};
+
+class ParamsEvent : public Event {
+public:
+	enum {
+		TYPE = 0xA005,
+	};
+public:
+	typedef std::vector<std::string> ValueArray;
+public:
+	ParamsEvent(std::string const& msgName, ValueArray const& va):Event(msgName) {
+		this->mValue = va;
+	}
+	ParamsEvent(std::string const& msgName):Event(msgName) {}
+public:
+	std::string& operator[](unsigned int index) {
+		return this->mValue[index];
+	}
+	unsigned int size() const {
+		return this->mValue.size();
+	}
+	ValueArray& Value() {
+		return this->mValue;
+	}
+	int Type() const override {
+		return ParamsEvent::TYPE;
+	}
+private:
+	ValueArray mValue;
 };
 
 
