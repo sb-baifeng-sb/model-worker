@@ -123,6 +123,9 @@ public:
 		}
 		return iter->second;
 	}
+	std::string& operator[](std::string const& key) {
+		return this->mValue[key];
+	}
 	ValueMap& Value() {
 		return this->mValue;
 	}
