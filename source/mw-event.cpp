@@ -1,6 +1,6 @@
 
 #include "mw-event.h"
-#include "mw-facade.h"
+#include "mw-context.h"
 
 namespace mw {
 
@@ -59,19 +59,19 @@ void HandlerHolder::notify(std::string const& name, std::string const& v) {
 }
 
 void Notifer::notify(Event const& e) {
-    this->facade->notify(e);
+    this->context->notify(e);
 }
 
 void Notifer::notify(std::string const& name) {
-    this->facade->notify(name);
+    this->context->notify(name);
 }
 
 void Notifer::notify(std::string const& name, int v) {
-    this->facade->notify(name, v);
+    this->context->notify(name, v);
 }
 
 void Notifer::notify(std::string const& name, std::string const& v) {
-    this->facade->notify(name, v);
+    this->context->notify(name, v);
 }
 
 } // lite2d

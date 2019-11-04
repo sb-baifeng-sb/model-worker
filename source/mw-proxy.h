@@ -3,7 +3,7 @@
 #define __MW_PROXY_H__
 
 #include "mw-event.h"
-#include "mw-facade.h"
+#include "mw-context.h"
 
 namespace mw {
 
@@ -12,7 +12,7 @@ class ProxyHolder {
 public:
 	typedef std::map<std::string, Proxy*> ProxyMap;
 public:
-	ProxyHolder(Facade* facade);
+	ProxyHolder(Context* c);
 	~ProxyHolder();
 public:
 	bool add(Proxy* proxy);
@@ -24,7 +24,7 @@ public:
 		return *dynamic_cast<T*>(&getProxy(proxyName));
 	}
 private:
-	Facade* facade;
+	Context* context;
 	ProxyMap mProxyMap;
 };
 
@@ -46,7 +46,7 @@ protected:
 protected:
 	template <typename T>
 	T& get(std::string const& proxyName) {
-		return facade->proxy().get<T>(proxyName);
+		return context->proxy().get<T>(proxyName);
 	}
 private:
 	std::string mProxyName;

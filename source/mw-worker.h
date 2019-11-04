@@ -3,7 +3,7 @@
 #define __MW_WORKER_H__
 
 #include "mw-event.h"
-#include "mw-facade.h"
+#include "mw-context.h"
 #include "mw-proxy.h"
 #include "vector"
 
@@ -36,7 +36,7 @@ protected:
 protected:
 	template <typename T>
 	T& get(std::string const& proxyName) {
-		return facade->proxy().get<T>(proxyName);
+		return context->proxy().get<T>(proxyName);
 	}
 private:
 	std::string mWorkerName;
@@ -46,7 +46,7 @@ class WorkerHolder {
 public:
 	typedef std::map<std::string, Worker*> WorkerMap;
 public:
-	WorkerHolder(Facade* facade);
+	WorkerHolder(Context* context);
 	~WorkerHolder();
 public:
 	bool add(Worker* worker);
@@ -58,7 +58,7 @@ public:
         return *dynamic_cast<T*>(&getWorker(workerName));
     }
 private:
-	Facade* facade;
+	Context* context;
 	WorkerMap mWorkerMap;
 };
 

@@ -3,20 +3,20 @@
 #define __MW_PROC_H__
 
 #include "mw-event.h"
-#include "mw-facade.h"
+#include "mw-context.h"
 #include "functional"
 
 namespace mw {
 
 class ProcHolder {
-    friend class Facade;
+    friend class Context;
 public:
     class ProcEvent {
     public:
-        Facade& facade;
+        Context& context;
         Event const& event;
     public:
-        ProcEvent(Facade& facade, Event const& e):facade(facade), event(e) {}
+        ProcEvent(Context& c, Event const& e):context(c), event(e) {}
     };
 public:
     typedef std::function<void(ProcEvent const& e)> Proc;
@@ -25,11 +25,11 @@ public:
     bool add(std::string const& eventName, Proc const& p);
     bool remove(std::string const& eventName);
 public:
-    ProcHolder(Facade* facade);
+    ProcHolder(Context* context);
 private:
     void handle(Event const& e);
 private:
-    Facade* facade;
+    Context* context;
     ProcMap mProcMap;
 };
 

@@ -1,6 +1,6 @@
 
-#ifndef __MW_FACADE_H__
-#define __MW_FACADE_H__
+#ifndef __MW_CONTEXT_H__
+#define __MW_CONTEXT_H__
 
 #include <string>
 
@@ -12,10 +12,10 @@ class HandlerHolder;
 class ProcHolder;
 class Event;
 
-class Facade {
+class Context {
 public:
-    Facade();
-    virtual ~Facade();
+    Context();
+    virtual ~Context();
 public:
     ProxyHolder& proxy() {
         return *this->mProxyHolder;
@@ -40,8 +40,6 @@ public:
     HandlerHolder* mHandlerHolder;
     ProcHolder* mProcHolder;
 };
-
-typedef Facade App;
 
 }
 

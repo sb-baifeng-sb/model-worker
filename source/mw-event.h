@@ -226,7 +226,7 @@ private:
 	Listener mListener;
 };
 
-class Facade;
+class Context;
 class Notifer {
 public:
 	virtual ~Notifer(){}
@@ -236,7 +236,7 @@ public:
 	void notify(std::string const& name, int v);
 	void notify(std::string const& name, std::string const& v);
 protected:
-	Facade* facade;
+	Context* context;
 };
 
 } // lite2d

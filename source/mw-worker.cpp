@@ -3,8 +3,7 @@
 
 namespace mw {
 
-WorkerHolder::WorkerHolder(Facade* facade) {
-	this->facade = facade;
+WorkerHolder::WorkerHolder(Context* c):context(c) {
 }
 
 WorkerHolder::~WorkerHolder() {
@@ -19,9 +18,9 @@ bool WorkerHolder::add(Worker* worker) {
 		delete worker;
 		return false;
 	}
-	worker->facade = this->facade;
+	worker->context = this->context;
 	{
-		auto& event = this->facade->event();
+		auto& event = this->context->event();
 		Worker::WorkList list = worker->worklist();
 		for (int i = 0; i < (int)list.size(); ++i) {
 			event.add(list[i], new Handler<Worker>(worker, &Worker::handle));
@@ -43,7 +42,7 @@ bool WorkerHolder::remove(std::string const& workerName) {
 		worker->onDetach();
 		this->mWorkerMap.erase(workerName);
 		{
-			auto& event = facade->event();
+			auto& event = this->context->event();
 			Worker::WorkList list = worker->worklist();
 			for (int i = 0; i < (int)list.size(); ++i) {
 				event.remove(list[i], worker);

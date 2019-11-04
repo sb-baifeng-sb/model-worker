@@ -27,8 +27,10 @@ private:
     void handle(Event const& e) override {
         if (e.Name() == "event1") {
             printf("worker1 - event1.\n");
+            this->notify("worker1-event1-notify");
         } else if (e.Name() == "event3") {
             printf("worker1 - event3.\n");
+            this->notify("worker1-event3-notify");
         }
     }
 };
@@ -42,33 +44,47 @@ class worker2 : public Worker {
     void handle(Event const& e) override {
         if (e.Name() == "event2") {
             printf("worker2 - event2.\n");
+            this->notify("worker2-event2-notify");
         } else if (e.Name() == "event4") {
             printf("worker2 - event4.\n");
+            this->notify("worker2-event4-notify");
         }
     }
 };
 
 int main() {
-    Facade a;
+    Context c;
 
-    a.proxy().add("model1", new model1);
-    a.proxy().add("model2", new model2);
+    c.proxy().add("model1", new model1);
+    c.proxy().add("model2", new model2);
 
-    a.worker().add("worker1", new worker1);
-    a.worker().add("worker2", new worker2);
+    c.worker().add("worker1", new worker1);
+    c.worker().add("worker2", new worker2);
 
-    a.proc().add("event4", [&](ProcEvent const& e) {
+    c.proc().add("event4", [&](ProcEvent const& e) {
+        printf("proc - %s.\n", e.event.Name().c_str());
+    });
+    c.proc().add("worker1-event1-notify", [&](ProcEvent const& e) {
+        printf("proc - %s.\n", e.event.Name().c_str());
+    });
+    c.proc().add("worker1-event3-notify", [&](ProcEvent const& e) {
+        printf("proc - %s.\n", e.event.Name().c_str());
+    });
+    c.proc().add("worker2-event2-notify", [&](ProcEvent const& e) {
+        printf("proc - %s.\n", e.event.Name().c_str());
+    });
+    c.proc().add("worker2-event4-notify", [&](ProcEvent const& e) {
         printf("proc - %s.\n", e.event.Name().c_str());
     });
 
-    a.notify("event1");
-    a.notify("event2");
+    c.notify("event1");
+    c.notify("event2");
 
-    auto& m1 = a.proxy().get<model1>("model1");
+    auto& m1 = c.proxy().get<model1>("model1");
     m1.doSome();
     m1.notify("event3");
 
-    auto& m2 = a.proxy().get<model2>("model2");
+    auto& m2 = c.proxy().get<model2>("model2");
     m2.doSome();
     m2.notify("event4");
 

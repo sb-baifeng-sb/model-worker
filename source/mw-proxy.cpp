@@ -3,8 +3,7 @@
 
 namespace mw {
 
-ProxyHolder::ProxyHolder(Facade* facade) {
-	this->facade = facade;
+ProxyHolder::ProxyHolder(Context* c):context(c) {
 }
 
 ProxyHolder::~ProxyHolder() {
@@ -19,7 +18,7 @@ bool ProxyHolder::add(Proxy* proxy) {
 		delete proxy;
 		return false;
 	}
-	proxy->facade = this->facade;
+	proxy->context = this->context;
 	this->mProxyMap.insert(std::make_pair(proxy->getName(), proxy));
 	proxy->onAttach();
 	return true;

@@ -3,8 +3,7 @@
 
 namespace mw {
 
-ProcHolder::ProcHolder(Facade* facade) {
-    this->facade = facade;
+ProcHolder::ProcHolder(Context* c):context(c) {
 }
 
 bool ProcHolder::add(std::string const& eventName, Proc const& p) {
@@ -22,7 +21,7 @@ void ProcHolder::handle(Event const& e) {
     if (iter == this->mProcMap.end()) {
         return;
     }
-    iter->second(ProcEvent(*this->facade, e));
+    iter->second(ProcEvent(*this->context, e));
 }
 
 }
