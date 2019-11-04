@@ -116,8 +116,12 @@ public:
 	}
 	KVEvent(std::string const& msgName):Event(msgName) {}
 public:
-	std::string& operator[](std::string const& key) {
-		return this->mValue[key];
+	std::string const& operator[](std::string const& key) const {
+		auto iter = this->mValue.find(key);
+		if (iter == this->mValue.end()) {
+			return this->mDef;
+		}
+		return iter->second;
 	}
 	ValueMap& Value() {
 		return this->mValue;
@@ -126,6 +130,7 @@ public:
 		return KVEvent::TYPE;
 	}
 private:
+	std::string mDef;
 	ValueMap mValue;
 };
 
@@ -142,11 +147,14 @@ public:
 	}
 	ParamsEvent(std::string const& msgName):Event(msgName) {}
 public:
-	std::string& operator[](unsigned int index) {
+	std::string const& operator[](unsigned int index) const {
 		return this->mValue[index];
 	}
 	unsigned int size() const {
 		return this->mValue.size();
+	}
+	ValueArray const& Value() const {
+		return this->mValue;
 	}
 	ValueArray& Value() {
 		return this->mValue;
