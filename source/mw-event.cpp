@@ -54,6 +54,10 @@ void HandlerHolder::notify(std::string const& name, int v) {
     this->notify(IntEvent(name, v));
 }
 
+void HandlerHolder::notify(std::string const& name, float v) {
+    this->notify(FloatEvent(name, v));
+}
+
 void HandlerHolder::notify(std::string const& name, std::string const& v) {
     this->notify(StringEvent(name, v));
 }
@@ -67,6 +71,10 @@ void Notifer::notify(std::string const& name) {
 }
 
 void Notifer::notify(std::string const& name, int v) {
+    this->context->notify(name, v);
+}
+
+void Notifer::notify(std::string const& name, float v) {
     this->context->notify(name, v);
 }
 

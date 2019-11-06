@@ -34,6 +34,10 @@ void Context::notify(std::string const& name, int v) {
     this->event().notify(name, v);
 }
 
+void Context::notify(std::string const& name, float v) {
+    this->event().notify(name, v);
+}
+
 void Context::notify(std::string const& name, std::string const& v) {
     this->event().notify(name, v);
 }
