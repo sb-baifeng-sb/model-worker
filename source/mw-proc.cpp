@@ -6,7 +6,7 @@ namespace mw {
 ProcHolder::ProcHolder(Context* c):context(c) {
 }
 
-bool ProcHolder::add(std::string const& eventName, Proc const& p) {
+bool ProcHolder::set(std::string const& eventName, Proc const& p) {
     this->mProcMap[eventName] = p;
     return true;
 }

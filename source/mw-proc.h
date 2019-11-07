@@ -22,7 +22,7 @@ public:
     typedef std::function<void(ProcEvent const& e)> Proc;
     typedef std::map<std::string, Proc> ProcMap;
 public:
-    bool add(std::string const& eventName, Proc const& p);
+    bool set(std::string const& eventName, Proc const& p);
     bool remove(std::string const& eventName);
 public:
     ProcHolder(Context* context);

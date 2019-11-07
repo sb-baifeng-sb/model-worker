@@ -68,19 +68,19 @@ int main() {
     c.worker().add("worker1", new worker1);
     c.worker().add("worker2", new worker2);
 
-    c.proc().add("event4", [&](ProcEvent const& e) {
+    c.proc().set("event4", [&](ProcEvent const& e) {
         printf("proc - %s.\n", e.event.Name().c_str());
     });
-    c.proc().add("worker1-event1-notify", [&](ProcEvent const& e) {
+    c.proc().set("worker1-event1-notify", [&](ProcEvent const& e) {
         printf("proc - %s.\n", e.event.Name().c_str());
     });
-    c.proc().add("worker1-event3-notify", [&](ProcEvent const& e) {
+    c.proc().set("worker1-event3-notify", [&](ProcEvent const& e) {
         printf("proc - %s.\n", e.event.Name().c_str());
     });
-    c.proc().add("worker2-event2-notify", [&](ProcEvent const& e) {
+    c.proc().set("worker2-event2-notify", [&](ProcEvent const& e) {
         printf("proc - %s.\n", e.event.Name().c_str());
     });
-    c.proc().add("worker2-event4-notify", [&](ProcEvent const& e) {
+    c.proc().set("worker2-event4-notify", [&](ProcEvent const& e) {
         printf("proc - %s.\n", e.event.Name().c_str());
     });
 
