@@ -14,12 +14,12 @@ ProxyHolder::~ProxyHolder() {
 }
 
 bool ProxyHolder::add(Proxy* proxy) {
-	if (this->mProxyMap.find(proxy->getName()) != this->mProxyMap.end()) {
+	if (this->mProxyMap.find(proxy->Name()) != this->mProxyMap.end()) {
 		delete proxy;
 		return false;
 	}
 	proxy->context = this->context;
-	this->mProxyMap.insert(std::make_pair(proxy->getName(), proxy));
+	this->mProxyMap.insert(std::make_pair(proxy->Name(), proxy));
 	proxy->onAttach();
 	return true;
 }

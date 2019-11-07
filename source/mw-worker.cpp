@@ -14,7 +14,7 @@ WorkerHolder::~WorkerHolder() {
 }
 
 bool WorkerHolder::add(Worker* worker) {
-	if (this->mWorkerMap.find(worker->getName()) != this->mWorkerMap.end()) {
+	if (this->mWorkerMap.find(worker->Name()) != this->mWorkerMap.end()) {
 		delete worker;
 		return false;
 	}
@@ -26,7 +26,7 @@ bool WorkerHolder::add(Worker* worker) {
 			event.add(list[i], new Handler<Worker>(worker, &Worker::handle));
 		}
 	}
-	this->mWorkerMap.insert(std::make_pair(worker->getName(), worker));
+	this->mWorkerMap.insert(std::make_pair(worker->Name(), worker));
 	worker->onAttach();
 	return true;
 }
