@@ -52,6 +52,13 @@ class worker2 : public Worker {
     }
 };
 
+class eventHandler {
+public:
+    void handle(Event const& e) {
+        printf("eventHandler - %s\n", e.Name().c_str());
+    }
+};
+
 int main() {
     Context c;
 
@@ -77,6 +84,9 @@ int main() {
         printf("proc - %s.\n", e.event.Name().c_str());
     });
 
+    eventHandler eh;
+    c.event().add("event4", &eventHandler::handle, &eh);
+
     c.notify("event1");
     c.notify("event2");
 
@@ -87,6 +97,9 @@ int main() {
     auto& m2 = c.proxy().get<model2>("model2");
     m2.doSome();
     m2.notify("event4");
+
+    c.event().remove("event4", &eh);
+    c.notify("event4");
 
     return 0;
 }

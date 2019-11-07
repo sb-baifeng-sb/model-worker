@@ -214,6 +214,10 @@ public:
 public:
 	bool add(std::string const& eventName, HandlerImp* handler);
 	bool remove(std::string const& eventName, void* target);
+	template <typename T>
+	bool add(std::string const& eventName, typename Handler<T>::FUNC func, T* target) {
+		return this->add(eventName, new Handler<T>(target, func));
+	}
 public:
 	void setListener(Listener const& l);
 public:

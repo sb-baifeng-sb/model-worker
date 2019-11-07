@@ -23,7 +23,7 @@ bool WorkerHolder::add(Worker* worker) {
 		auto& event = this->context->event();
 		Worker::WorkList list = worker->worklist();
 		for (int i = 0; i < (int)list.size(); ++i) {
-			event.add(list[i], new Handler<Worker>(worker, &Worker::handle));
+			event.add(list[i], &Worker::handle, worker);
 		}
 	}
 	this->mWorkerMap.insert(std::make_pair(worker->Name(), worker));
