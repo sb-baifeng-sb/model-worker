@@ -20,7 +20,7 @@ public:
 	}
 	virtual ~Worker() {}
 public:
-	std::string const& getName() const {
+	std::string const& Name() const {
 		return this->mWorkerName;
 	}
 protected:
