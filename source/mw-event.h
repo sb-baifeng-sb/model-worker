@@ -14,10 +14,6 @@ namespace mw {
 
 class Event {
 public:
-	enum {
-		TYPE = 0xA000,
-	};
-public:
     Event(std::string const& msgName) {
         this->mName = msgName;
     }
@@ -26,9 +22,10 @@ public:
 	std::string const& Name() const {
 		return this->mName;
 	}
-	virtual int Type() const {
-		return Event::TYPE;
-	};
+	virtual bool Check(std::string const& TypeName) const {
+		assert(false && "Event::Check must be override.");
+		return false;
+	}
 private:
 	std::string mName;
 };
@@ -43,138 +40,8 @@ public:
     }
 };
 
-class StringEvent : public Event {
-public:
-	enum {
-		TYPE = 0xA001,
-	};
-public:
-	StringEvent(std::string const& msgName, std::string const& value):Event(msgName) {
-		this->mMsgValue = value;
-	}
-public:
-	std::string const& Value() const {
-		return this->mMsgValue;
-	}
-	int Type() const override {
-		return StringEvent::TYPE;
-	}
-private:
-	std::string mMsgValue;
-};
-
-class IntEvent : public Event {
-public:
-	enum {
-		TYPE = 0xA002,
-	};
-public:
-	IntEvent(std::string const& msgName, int value):Event(msgName) {
-		this->mMsgValue = value;
-	}
-	int Type() const override {
-		return IntEvent::TYPE;
-	}
-public:
-	int Value() const {
-		return this->mMsgValue;
-	}
-private:
-	int mMsgValue;
-};
-
-class FloatEvent : public Event {
-public:
-	enum {
-		TYPE = 0xA003,
-	};
-public:
-	FloatEvent(std::string const& msgName, float value):Event(msgName) {
-		this->mMsgValue = value;
-	}
-public:
-	float Value() const {
-		return this->mMsgValue;
-	}
-	int Type() const override {
-		return FloatEvent::TYPE;
-	}
-private:
-	float mMsgValue;
-};
-
-class KVEvent : public Event {
-public:
-	enum {
-		TYPE = 0xA004,
-	};
-public:
-	typedef std::map<std::string, std::string> ValueMap;
-public:
-	KVEvent(std::string const& msgName, ValueMap const& vm):Event(msgName) {
-		this->mValue = vm;
-	}
-	KVEvent(std::string const& msgName):Event(msgName) {}
-public:
-	std::string const& operator[](std::string const& key) const {
-		auto iter = this->mValue.find(key);
-		if (iter == this->mValue.end()) {
-			return this->mDef;
-		}
-		return iter->second;
-	}
-	std::string& operator[](std::string const& key) {
-		return this->mValue[key];
-	}
-	ValueMap& Value() {
-		return this->mValue;
-	}
-	int Type() const override {
-		return KVEvent::TYPE;
-	}
-private:
-	std::string mDef;
-	ValueMap mValue;
-};
-
-class ParamsEvent : public Event {
-public:
-	enum {
-		TYPE = 0xA005,
-	};
-public:
-	typedef std::vector<std::string> ValueArray;
-public:
-	ParamsEvent(std::string const& msgName, ValueArray const& va):Event(msgName) {
-		this->mValue = va;
-	}
-	ParamsEvent(std::string const& msgName):Event(msgName) {}
-public:
-	std::string const& operator[](unsigned int index) const {
-		return this->mValue[index];
-	}
-	unsigned int size() const {
-		return this->mValue.size();
-	}
-	ValueArray const& Value() const {
-		return this->mValue;
-	}
-	ValueArray& Value() {
-		return this->mValue;
-	}
-	int Type() const override {
-		return ParamsEvent::TYPE;
-	}
-private:
-	ValueArray mValue;
-};
-
 template <typename T>
 class DataEvent : public Event {
-public:
-	enum {
-		TYPE = 0xA006,
-	};
 public:
 	typedef T& ObjectType;
 public:
@@ -183,8 +50,8 @@ public:
 	ObjectType Data() const {
 		return this->mObject;
 	}
-	int Type() const override {
-		return DataEvent::TYPE;
+	bool Check(std::string const& TypeName) const override {
+		return TypeName == typeid(mObject).name();
 	}
 private:
 	ObjectType mObject;
@@ -243,9 +110,10 @@ public:
 public:
 	void notify(Event const& e);
 	void notify(std::string const& name);
-	void notify(std::string const& name, int v);
-	void notify(std::string const& name, float v);
-	void notify(std::string const& name, std::string const& v);
+	template <typename T>
+	void notify(std::string const& name, T& value) {
+		this->notify(DataEvent<T>(name, value));
+	}
 private:
 	HandlerMap mHandlerMap;
 	Listener mListener;
@@ -258,9 +126,10 @@ public:
 public:
 	void notify(Event const& e);
 	void notify(std::string const& name);
-	void notify(std::string const& name, int v);
-	void notify(std::string const& name, float v);
-	void notify(std::string const& name, std::string const& v);
+	template <typename T>
+	void notify(std::string const& name, T& value) {
+		this->notify(DataEvent<T>(name, value));
+	}
 protected:
 	Context* context;
 };

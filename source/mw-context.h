@@ -3,6 +3,7 @@
 #define __MW_CONTEXT_H__
 
 #include <string>
+#include "mw-event.h"
 
 namespace mw {
 
@@ -10,8 +11,6 @@ class ProxyHolder;
 class WorkerHolder;
 class HandlerHolder;
 class ProcHolder;
-class Event;
-
 class Context {
 public:
     Context();
@@ -32,9 +31,10 @@ public:
 public:
     void notify(Event const& e);
     void notify(std::string const& name);
-    void notify(std::string const& name, int v);
-    void notify(std::string const& name, float v);
-    void notify(std::string const& name, std::string const& v);
+    template <typename T>
+    void notify(std::string const& name, T& value) {
+        this->notify(DataEvent<T>(name, value));
+    }
 public:
     ProxyHolder* mProxyHolder;
     WorkerHolder* mWorkerHolder;

@@ -50,36 +50,12 @@ void HandlerHolder::notify(std::string const& name) {
     this->notify(Event(name));
 }
 
-void HandlerHolder::notify(std::string const& name, int v) {
-    this->notify(IntEvent(name, v));
-}
-
-void HandlerHolder::notify(std::string const& name, float v) {
-    this->notify(FloatEvent(name, v));
-}
-
-void HandlerHolder::notify(std::string const& name, std::string const& v) {
-    this->notify(StringEvent(name, v));
-}
-
 void Notifer::notify(Event const& e) {
     this->context->notify(e);
 }
 
 void Notifer::notify(std::string const& name) {
     this->context->notify(name);
-}
-
-void Notifer::notify(std::string const& name, int v) {
-    this->context->notify(name, v);
-}
-
-void Notifer::notify(std::string const& name, float v) {
-    this->context->notify(name, v);
-}
-
-void Notifer::notify(std::string const& name, std::string const& v) {
-    this->context->notify(name, v);
 }
 
 } // lite2d

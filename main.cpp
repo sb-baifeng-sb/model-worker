@@ -89,6 +89,7 @@ int main() {
         printf("proc - %s.\n", e.event.Name().c_str());
     });
     c.proc().set("test-object-event", [&](ProcEvent const& e) {
+        assert(e.event.Check(typeid(TestData).name()));
         auto& event = (DataEvent<TestData> const&)e.event;
         printf("proc - %s - ", e.event.Name().c_str());
         printf("[%d, %s]\n", event.Data().value, event.Data().text.c_str());
