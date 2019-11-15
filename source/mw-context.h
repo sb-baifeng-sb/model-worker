@@ -32,7 +32,7 @@ public:
     void notify(Event const& e);
     void notify(std::string const& name);
     template <typename T>
-    void notify(std::string const& name, T& value) {
+    void notify(std::string const& name, T const& value) {
         this->notify(DataEvent<T>(name, value));
     }
 public:

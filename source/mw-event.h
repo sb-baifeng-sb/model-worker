@@ -43,7 +43,7 @@ public:
 template <typename T>
 class DataEvent : public Event {
 public:
-	typedef T& ObjectType;
+	typedef T const& ObjectType;
 public:
 	DataEvent(std::string const& msgName, ObjectType target):Event(msgName), mObject(target) {}
 public:
@@ -111,7 +111,7 @@ public:
 	void notify(Event const& e);
 	void notify(std::string const& name);
 	template <typename T>
-	void notify(std::string const& name, T& value) {
+	void notify(std::string const& name, T const& value) {
 		this->notify(DataEvent<T>(name, value));
 	}
 private:
@@ -127,7 +127,7 @@ public:
 	void notify(Event const& e);
 	void notify(std::string const& name);
 	template <typename T>
-	void notify(std::string const& name, T& value) {
+	void notify(std::string const& name, T const& value) {
 		this->notify(DataEvent<T>(name, value));
 	}
 protected:
