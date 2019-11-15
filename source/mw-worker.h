@@ -35,7 +35,7 @@ protected:
 	virtual void onDetach(){}
 protected:
 	template <typename T>
-	T& get(std::string const& proxyName) {
+	T& get(std::string const& proxyName) const {
 		return context->proxy().get<T>(proxyName);
 	}
 private:
@@ -52,9 +52,9 @@ public:
 	bool add(Worker* worker);
 	bool add(std::string const& workerName, Worker* worker);
 	bool remove(std::string const& workerName);
-	Worker& getWorker(std::string const& workerName);
+	Worker& getWorker(std::string const& workerName) const;
     template <typename T>
-    T& get(std::string const& workerName) {
+    T& get(std::string const& workerName) const {
         return *dynamic_cast<T*>(&getWorker(workerName));
     }
 private:

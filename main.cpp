@@ -59,6 +59,11 @@ public:
     }
 };
 
+struct TestData {
+    int value;
+    std::string text;
+};
+
 int main() {
     Context c;
 
@@ -83,6 +88,11 @@ int main() {
     c.proc().set("worker2-event4-notify", [&](ProcEvent const& e) {
         printf("proc - %s.\n", e.event.Name().c_str());
     });
+    c.proc().set("test-object-event", [&](ProcEvent const& e) {
+        auto& event = (DataEvent<TestData> const&)e.event;
+        printf("proc - %s - ", e.event.Name().c_str());
+        printf("[%d, %s]\n", event.Data().value, event.Data().text.c_str());
+    });
 
     eventHandler eh;
     c.event().add("event4", &eventHandler::handle, &eh);
@@ -100,6 +110,11 @@ int main() {
 
     c.event().remove("event4", &eh);
     c.notify("event4");
+
+    TestData data = {
+        100, "hello world"
+    };
+    c.notify(DataEvent("test-object-event", data));
 
     return 0;
 }

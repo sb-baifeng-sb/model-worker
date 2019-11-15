@@ -54,8 +54,10 @@ bool WorkerHolder::remove(std::string const& workerName) {
 	return false;
 }
 
-Worker& WorkerHolder::getWorker(std::string const& workerName) {
-	return *this->mWorkerMap[workerName];
+Worker& WorkerHolder::getWorker(std::string const& workerName) const {
+	auto iter = this->mWorkerMap.find(workerName);
+	assert(iter != this->mWorkerMap.end());
+	return *iter->second;
 }
 
 }

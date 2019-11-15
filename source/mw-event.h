@@ -169,6 +169,26 @@ private:
 	ValueArray mValue;
 };
 
+template <typename T>
+class DataEvent : public Event {
+public:
+	enum {
+		TYPE = 0xA006,
+	};
+public:
+	typedef T& ObjectType;
+public:
+	DataEvent(std::string const& msgName, ObjectType target):Event(msgName), mObject(target) {}
+public:
+	ObjectType Data() const {
+		return this->mObject;
+	}
+	int Type() const override {
+		return DataEvent::TYPE;
+	}
+private:
+	ObjectType mObject;
+};
 
 template<typename T>
 class Handler : public HandlerImp {
