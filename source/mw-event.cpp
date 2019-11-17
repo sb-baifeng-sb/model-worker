@@ -4,6 +4,10 @@
 
 namespace mw {
 
+HandlerHolder::HandlerHolder(Context* c):context(c) {
+
+}
+
 HandlerHolder::~HandlerHolder() {
     for (HandlerMap::iterator iter = this->mHandlerMap.begin(); iter != this->mHandlerMap.end(); ++iter) {
         auto& list = iter->second;
@@ -37,6 +41,8 @@ void HandlerHolder::setListener(Listener const& l) {
 }
 
 void HandlerHolder::notify(Event const& e) {
+    assert(e.context == nullptr && "HandlerHolder::notify event.context must nullptr.");
+    ((Event&)e).context = this->context;
 	auto& list = this->mHandlerMap[e.Name()];
 	for (HandlerList::iterator i = list.begin(); i != list.end(); ++i) {
 		(*i)->handler(e);

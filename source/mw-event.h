@@ -12,9 +12,11 @@
 
 namespace mw {
 
+class Context;
 class Event {
+	friend class HandlerHolder;
 public:
-    Event(std::string const& msgName) {
+    Event(std::string const& msgName):context(nullptr) {
         this->mName = msgName;
     }
 	virtual ~Event(){}
@@ -22,11 +24,15 @@ public:
 	std::string const& Name() const {
 		return this->mName;
 	}
+	Context const& Ctx() const {
+		return *this->context;
+	}
 	virtual bool Check(std::string const& TypeName) const {
 		assert(false && "Event::Check must be override.");
 		return false;
 	}
 private:
+	Context* context;
 	std::string mName;
 };
 
@@ -97,6 +103,7 @@ public:
 	typedef std::map<std::string, HandlerList> HandlerMap;
 	typedef std::function<void(Event const& e)> Listener;
 public:
+	HandlerHolder(Context* c);
 	~HandlerHolder();
 public:
 	bool add(std::string const& eventName, HandlerImp* handler);
@@ -115,11 +122,11 @@ public:
 		this->notify(DataEvent<T>(name, value));
 	}
 private:
+	Context* context;
 	HandlerMap mHandlerMap;
 	Listener mListener;
 };
 
-class Context;
 class Notifer {
 public:
 	virtual ~Notifer(){}

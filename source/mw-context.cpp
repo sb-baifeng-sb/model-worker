@@ -11,7 +11,7 @@ Context::Context() {
     this->mProxyHolder = new ProxyHolder(this);
     this->mWorkerHolder = new WorkerHolder(this);
     this->mProcHolder = new ProcHolder(this);
-    this->mHandlerHolder = new HandlerHolder();
+    this->mHandlerHolder = new HandlerHolder(this);
     this->mHandlerHolder->setListener(std::bind(&ProcHolder::handle, this->mProcHolder, std::placeholders::_1));
 }
 

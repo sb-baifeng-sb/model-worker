@@ -19,7 +19,7 @@ public:
         ProcEvent(Context& c, Event const& e):context(c), event(e) {}
     };
 public:
-    typedef std::function<void(ProcEvent const& e)> Proc;
+    typedef std::function<void(Event const& e)> Proc;
     typedef std::map<std::string, Proc> ProcMap;
 public:
     bool set(std::string const& eventName, Proc const& p);

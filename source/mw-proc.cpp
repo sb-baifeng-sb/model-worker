@@ -21,7 +21,7 @@ void ProcHolder::handle(Event const& e) {
     if (iter == this->mProcMap.end()) {
         return;
     }
-    iter->second(ProcEvent(*this->context, e));
+    iter->second(e);
 }
 
 }
