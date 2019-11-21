@@ -52,6 +52,27 @@ private:
 	std::string mProxyName;
 };
 
-} // lite2d
+template <typename T>
+class DataProxy : public Proxy {
+public:
+	typedef T Data;
+public:
+	DataProxy() {}
+	DataProxy(Data const& data):mData(data) {}
+public:
+	void setData(Data const& data) {
+		this->mData = data;
+	}
+	Data const& getData() const {
+		return this->mData;
+	}
+	Data& getData() {
+		return this->mData;
+	}
+private:
+	Data mData;
+};
 
-#endif // LITE2D_PROXY_H
+}
+
+#endif // __MW_PROXY_H__

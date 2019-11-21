@@ -117,5 +117,20 @@ int main() {
     };
     c.notify(DataEvent("test-object-event", data));
 
+    char text[256] = {"pointer"};
+
+    c.proxy().add("data-proxy-int", new DataProxy<int>(100));
+    c.proxy().add("data-proxy-TestData", new DataProxy<TestData>({10, "a"}));
+    c.proxy().add("data-proxy-pointer", new DataProxy<char*>(text));
+
+    auto& int_data_proxy = c.proxy().get<DataProxy<int>>("data-proxy-int");
+    printf("data-proxy-int: %d\n", int_data_proxy.getData());
+
+    auto& testData_data_proxy = c.proxy().get<DataProxy<TestData>>("data-proxy-TestData");
+    printf("data-proxy-TestData: %d - %s\n", testData_data_proxy.getData().value, testData_data_proxy.getData().text.c_str());
+
+    auto& pointer_data_proxy = c.proxy().get<DataProxy<char*>>("data-proxy-pointer");
+    printf("data-proxy-pointer: %s\n", pointer_data_proxy.getData());
+
     return 0;
 }

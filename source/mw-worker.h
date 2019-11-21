@@ -64,4 +64,4 @@ private:
 
 }
 
-#endif // LITE2D_WORKER_H
+#endif // __MW_WORKER_H__

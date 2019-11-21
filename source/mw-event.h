@@ -141,6 +141,6 @@ protected:
 	Context* context;
 };
 
-} // lite2d
+}
 
-#endif // LITE2D_EVENT_H
+#endif // __MW_EVENT_H__
