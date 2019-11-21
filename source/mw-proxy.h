@@ -69,7 +69,7 @@ public:
 	Data& getData() {
 		return this->mData;
 	}
-private:
+protected:
 	Data mData;
 };
 
