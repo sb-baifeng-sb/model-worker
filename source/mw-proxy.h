@@ -57,6 +57,7 @@ class DataOwner {
 public:
 	typedef T Data;
 public:
+	DataOwner() {}
 	DataOwner(Data const& data):mData(data) {}
 	virtual ~DataOwner() {}
 public:
