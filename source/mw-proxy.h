@@ -53,12 +53,12 @@ private:
 };
 
 template <typename T>
-class DataProxy : public Proxy {
+class DataOwner {
 public:
 	typedef T Data;
 public:
-	DataProxy() {}
-	DataProxy(Data const& data):mData(data) {}
+	DataOwner(Data const& data):mData(data) {}
+	virtual ~DataOwner() {}
 public:
 	void setData(Data const& data) {
 		this->mData = data;
@@ -71,6 +71,15 @@ public:
 	}
 protected:
 	Data mData;
+};
+
+template <typename T>
+class DataProxy : public Proxy, public DataOwner<T> {
+public:
+	typedef typename DataOwner<T>::Data Data;
+public:
+	DataProxy() {}
+	DataProxy(Data const& data):DataOwner<T>(data) {}
 };
 
 }
