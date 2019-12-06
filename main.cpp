@@ -132,5 +132,7 @@ int main() {
     auto& pointer_data_proxy = c.proxy().get<DataProxy<char*>>("data-proxy-pointer");
     printf("data-proxy-pointer: %s\n", pointer_data_proxy.getData());
 
+    auto& ctx = m1.Ctx();
+
     return 0;
 }

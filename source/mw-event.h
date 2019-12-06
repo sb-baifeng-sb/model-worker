@@ -137,6 +137,10 @@ public:
 	void notify(std::string const& name, T const& value) {
 		this->notify(DataEvent<T>(name, value));
 	}
+public:
+	Context& Ctx() {
+		return *this->context;
+	}
 protected:
 	Context* context;
 };
