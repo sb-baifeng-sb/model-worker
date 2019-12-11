@@ -68,18 +68,9 @@ class Handler : public HandlerImp {
 public:
 	typedef void (T::*FUNC)(Event const&);
 public:
-	Handler(T* target) {
-		this->target = target;
-		this->callfunc = NULL;
-	}
-	Handler(T* target, FUNC func) {
-		this->target = target;
-		this->callfunc = func;
-	}
-	Handler(Handler const& obj) {
-		this->target = obj.target;
-		this->callfunc = obj.callfunc;
-	}
+	Handler(T* target, FUNC func):target(target), callfunc(func) {}
+	Handler(FUNC func, T* target):target(target), callfunc(func) {}
+	Handler(Handler const& obj):target(obj.target), callfunc(obj.callfunc) {}
 	virtual ~Handler() {
 		this->target = NULL;
 		this->callfunc = NULL;
