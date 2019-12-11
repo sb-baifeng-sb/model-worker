@@ -89,6 +89,7 @@ private:
 };
 
 class HandlerHolder {
+	friend class Context;
 public:
 	typedef std::list<HandlerImp*> HandlerList;
 	typedef std::map<std::string, HandlerList> HandlerMap;
@@ -104,14 +105,14 @@ public:
 		return this->add(eventName, new Handler<T>(target, func));
 	}
 public:
-	void setListener(Listener const& l);
-public:
 	void notify(Event const& e);
 	void notify(std::string const& name);
 	template <typename T>
 	void notify(std::string const& name, T const& value) {
 		this->notify(DataEvent<T>(name, value));
 	}
+private:
+	void setListener(Listener const& l);
 private:
 	Context* context;
 	HandlerMap mHandlerMap;
