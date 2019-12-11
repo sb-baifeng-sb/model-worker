@@ -57,7 +57,7 @@ public:
 		return this->mObject;
 	}
 	bool Check(std::string const& TypeName) const override {
-		return TypeName == typeid(mObject).name();
+		return TypeName == typeid(mObject).name() || TypeName == typeid(DataEvent<T>).name();
 	}
 private:
 	ObjectType mObject;
