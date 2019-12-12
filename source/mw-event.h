@@ -2,13 +2,12 @@
 #ifndef __MW_EVENT_H__
 #define __MW_EVENT_H__
 
-#include "stdio.h"
-#include "stdlib.h"
-#include "string"
-#include "map"
-#include "list"
-#include "vector"
-//#include "functional"
+#include <string>
+#include <map>
+#include <list>
+#include <vector>
+#include <functional>
+#include <assert.h>
 
 namespace mw {
 

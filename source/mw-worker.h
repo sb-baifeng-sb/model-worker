@@ -5,7 +5,7 @@
 #include "mw-event.h"
 #include "mw-context.h"
 #include "mw-proxy.h"
-#include "vector"
+#include <vector>
 
 namespace mw {
 

@@ -4,7 +4,7 @@
 
 #include "mw-event.h"
 #include "mw-context.h"
-#include "functional"
+#include <functional>
 
 namespace mw {
 
