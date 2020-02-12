@@ -18,6 +18,7 @@ public:
 	bool add(Proxy* proxy);
 	bool add(std::string const& proxyName, Proxy* proxy);
 	bool remove(std::string const& proxyName);
+	bool has(std::string const& proxyName);
 	Proxy& getProxy(std::string const& proxyName) const;
 	template <typename T>
 	T& get(std::string const& proxyName) const {

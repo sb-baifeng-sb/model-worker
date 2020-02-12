@@ -41,6 +41,10 @@ bool ProxyHolder::remove(std::string const& proxyName) {
 	return true;
 }
 
+bool ProxyHolder::has(std::string const& proxyName) {
+	return this->mProxyMap.find(proxyName) != this->mProxyMap.end();
+}
+
 Proxy& ProxyHolder::getProxy(std::string const& proxyName) const {
 	auto iter = this->mProxyMap.find(proxyName);
 	assert(iter != this->mProxyMap.end());
