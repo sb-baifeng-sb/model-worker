@@ -41,6 +41,10 @@ public:
 		return this->mProxyName;
 	}
 protected:
+	void setName(std::string const& name) {
+		this->mProxyName = name;
+	}
+protected:
 	virtual void onAttach(){}
 	virtual void onDetach(){}
 protected:
