@@ -30,14 +30,15 @@ bool ProxyHolder::add(std::string const& proxyName, Proxy* proxy) {
 }
 
 bool ProxyHolder::remove(std::string const& proxyName) {
-	Proxy* proxy = this->mProxyMap[proxyName];
-	if (proxy != NULL) {
-		proxy->onDetach();
-		delete proxy;
-		this->mProxyMap.erase(proxyName);
-		return true;
+	auto iter = this->mProxyMap.find(proxyName);
+	if (iter == this->mProxyMap.end()) {
+		return false;
 	}
-	return false;
+	Proxy* proxy = iter->second;
+	proxy->onDetach();
+	delete proxy;
+	this->mProxyMap.erase(proxyName);
+	return true;
 }
 
 Proxy& ProxyHolder::getProxy(std::string const& proxyName) const {

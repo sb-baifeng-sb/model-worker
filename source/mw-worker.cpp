@@ -37,21 +37,22 @@ bool WorkerHolder::add(std::string const& workerName, Worker* worker) {
 }
 
 bool WorkerHolder::remove(std::string const& workerName) {
-	Worker* worker = this->mWorkerMap[workerName];
-	if (worker != NULL) {
-		worker->onDetach();
-		this->mWorkerMap.erase(workerName);
-		{
-			auto& event = this->context->event();
-			Worker::WorkList list = worker->worklist();
-			for (int i = 0; i < (int)list.size(); ++i) {
-				event.remove(list[i], worker);
-			}
-		}
-		delete worker;
-		return true;
+	auto iter = this->mWorkerMap.find(workerName);
+	if (iter == this->mWorkerMap.end()) {
+		return false;
 	}
-	return false;
+	Worker* worker = iter->second;
+	worker->onDetach();
+	this->mWorkerMap.erase(workerName);
+	{
+		auto& event = this->context->event();
+		Worker::WorkList list = worker->worklist();
+		for (int i = 0; i < (int)list.size(); ++i) {
+			event.remove(list[i], worker);
+		}
+	}
+	delete worker;
+	return true;
 }
 
 Worker& WorkerHolder::getWorker(std::string const& workerName) const {
