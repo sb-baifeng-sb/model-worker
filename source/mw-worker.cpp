@@ -18,7 +18,7 @@ bool WorkerHolder::add(Worker* worker) {
 		delete worker;
 		return false;
 	}
-	worker->context = this->context;
+	worker->setCtx(this->context);
 	{
 		auto& event = this->context->event();
 		Worker::WorkList list = worker->worklist();

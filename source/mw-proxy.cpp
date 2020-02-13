@@ -18,7 +18,7 @@ bool ProxyHolder::add(Proxy* proxy) {
 		delete proxy;
 		return false;
 	}
-	proxy->context = this->context;
+	proxy->setCtx(this->context);
 	this->mProxyMap.insert(std::make_pair(proxy->Name(), proxy));
 	proxy->onAttach();
 	return true;
