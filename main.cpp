@@ -134,5 +134,11 @@ int main() {
 
     auto& ctx = m1.Ctx();
 
+    c.proxy().remove("model1");
+    assert(c.proxy().has("model1") == false && "proxy has fail.");
+
+    c.worker().remove("worker1");
+    assert(c.worker().has("worker1") == false && "worker has fail.");
+
     return 0;
 }

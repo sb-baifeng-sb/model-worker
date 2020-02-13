@@ -14,7 +14,7 @@ ProxyHolder::~ProxyHolder() {
 }
 
 bool ProxyHolder::add(Proxy* proxy) {
-	if (this->mProxyMap.find(proxy->Name()) != this->mProxyMap.end()) {
+	if (has(proxy->Name())) {
 		delete proxy;
 		return false;
 	}

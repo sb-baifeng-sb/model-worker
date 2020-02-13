@@ -52,6 +52,7 @@ public:
 	bool add(Worker* worker);
 	bool add(std::string const& workerName, Worker* worker);
 	bool remove(std::string const& workerName);
+	bool has(std::string const& workerName);
 	Worker& getWorker(std::string const& workerName) const;
     template <typename T>
     T& get(std::string const& workerName) const {

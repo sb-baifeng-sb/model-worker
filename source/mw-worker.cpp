@@ -14,7 +14,7 @@ WorkerHolder::~WorkerHolder() {
 }
 
 bool WorkerHolder::add(Worker* worker) {
-	if (this->mWorkerMap.find(worker->Name()) != this->mWorkerMap.end()) {
+	if (has(worker->Name())) {
 		delete worker;
 		return false;
 	}
@@ -53,6 +53,10 @@ bool WorkerHolder::remove(std::string const& workerName) {
 	}
 	delete worker;
 	return true;
+}
+
+bool WorkerHolder::has(std::string const& workerName) {
+	return this->mWorkerMap.find(workerName) != this->mWorkerMap.end();
 }
 
 Worker& WorkerHolder::getWorker(std::string const& workerName) const {
