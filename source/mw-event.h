@@ -133,6 +133,10 @@ public:
 		return *this->context;
 	}
 protected:
+	void setCtx(Context* c) {
+		this->context = c;
+	}
+protected:
 	Context* context;
 };
 
