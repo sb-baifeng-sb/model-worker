@@ -36,8 +36,9 @@ bool ProxyHolder::remove(std::string const& proxyName) {
 	}
 	Proxy* proxy = iter->second;
 	proxy->onDetach();
-	delete proxy;
 	this->mProxyMap.erase(proxyName);
+	// last to delete, because proxyName belong to proxy
+	delete proxy;
 	return true;
 }
 
